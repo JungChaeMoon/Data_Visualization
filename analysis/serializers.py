@@ -1,8 +1,14 @@
 from rest_framework import serializers
-from .models import Data
+from .models import DataModel1, DataModel2
 
 
-class DataSerializer(serializers.ModelSerializer):
+class DataModel1Serializer(serializers.ModelSerializer):
     class Meta:
-        model = Data
+        model = DataModel1
+        fields = '__all__'
+
+
+class DataModel2Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = DataModel2
         fields = '__all__'

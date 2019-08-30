@@ -2,17 +2,28 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 from rest_framework import viewsets
-from .models import Data
-from .serializers import DataSerializer
+from .models import DataModel1, DataModel2
+from .serializers import DataModel1Serializer, DataModel2Serializer
+import pandas as pd
+import numpy as np
 
 
-class DataSaveView(viewsets.ModelViewSet):
-    queryset = Data.objects.all()
-    serializer_class = DataSerializer
+class DataModel1SaveView(viewsets.ModelViewSet):
+    queryset = DataModel1.objects.all()
+    serializer_class = DataModel1Serializer
 
     def create(self, request, *args, **kwargs):
-        response = super(DataSaveView, self).create(request, *args, **kwargs)
-        return HttpResponseRedirect(reverse('data_list'))
+        response = super(DataModel1SaveView, self).create(request, *args, **kwargs)
+        return HttpResponseRedirect(reverse('#'))
+
+
+class DataModel2SaveView(viewsets.ModelViewSet):
+    queryset = DataModel2.objects.all()
+    serializer_class = DataModel2Serializer
+
+    def create(self, request, *args, **kwargs):
+        reponse = super(DataModel2SaveView, self).create(request, *args, **kwargs)
+        return HttpResponseRedirect(reverse('#'))
 
 
 class GraphView(TemplateView):
