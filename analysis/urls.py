@@ -1,14 +1,14 @@
 from django.urls import path, include
 from rest_framework import routers
-from .views import DataModel1SaveView, DataModel2SaveView, GraphView
+from .views import DataModelSaveView, GraphView
 
 app_name = 'analysis'
-
-router = routers.DefaultRouter()
-router.register('data1_save', DataModel1SaveView)
-router.register('data2_save', DataModel2SaveView)
+#
+# router = routers.DefaultRouter()
+# router.register('data_save', DataModelSaveView)
+# router.register('data_list', GraphView)
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('graph/', GraphView.as_view(), name='graph'),
+    path('data_save', DataModelSaveView.as_view(), name='data_save'),
+    path('data_list', GraphView.as_view(), name='data_list'),
 ]

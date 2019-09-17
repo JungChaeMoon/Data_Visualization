@@ -1,33 +1,22 @@
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from django.views.generic import TemplateView
-from rest_framework import viewsets
-from .models import DataModel1, DataModel2
-from .serializers import DataModel1Serializer, DataModel2Serializer
-import pandas as pd
-import numpy as np
+from rest_framework import generics, status
+from rest_framework.response import Response
+
+from .models import DataSaveModel
+from .serializers import DataSaveModelSerializer
 
 
-class DataModel1SaveView(viewsets.ModelViewSet):
-    queryset = DataModel1.objects.all()
-    serializer_class = DataModel1Serializer
+class DataModelSaveView(generics.CreateAPIView):
+    queryset = DataSaveModel.objects.all()
+    serializer_class = DataSaveModelSerializer
 
     def create(self, request, *args, **kwargs):
-        response = super(DataModel1SaveView, self).create(request, *args, **kwargs)
-        return HttpResponseRedirect(reverse('#'))
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class DataModel2SaveView(viewsets.ModelViewSet):
-    queryset = DataModel2.objects.all()
-    serializer_class = DataModel2Serializer
-
-    def create(self, request, *args, **kwargs):
-        reponse = super(DataModel2SaveView, self).create(request, *args, **kwargs)
-        return HttpResponseRedirect(reverse('#'))
-
-
-class GraphView(TemplateView):
-    template_name = 'analysis/graph.html'
-
-    def get(self, request, *args, **kwargs):
-        return super(GraphView, self).get(request, *args, **kwargs)
+class GraphView(generics.ListAPIView):
+    queryset = DataSaveModel.objects.all()
+    serializer_class = DataSaveModelSerializer
