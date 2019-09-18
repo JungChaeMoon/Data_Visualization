@@ -1,3 +1,5 @@
+from django.views.generic import TemplateView
+
 from rest_framework import generics, status
 from rest_framework.response import Response
 
@@ -20,3 +22,7 @@ class DataModelSaveView(generics.CreateAPIView):
 class GraphView(generics.ListAPIView):
     queryset = DataSaveModel.objects.all()
     serializer_class = DataSaveModelSerializer
+
+
+class DataCharView(TemplateView):
+    template_name = 'analysis/graph.html'

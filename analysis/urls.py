@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
-from .views import DataModelSaveView, GraphView
+from .views import DataModelSaveView, GraphView, DataCharView
 
 app_name = 'analysis'
 #
@@ -9,6 +9,7 @@ app_name = 'analysis'
 # router.register('data_list', GraphView)
 
 urlpatterns = [
-    path('data_save', DataModelSaveView.as_view(), name='data_save'),
-    path('data_list', GraphView.as_view(), name='data_list'),
+    path('data_save/', DataModelSaveView.as_view(), name='data_save'),
+    path('data_list/', GraphView.as_view(), name='data_list'),
+    path('chart/', DataCharView.as_view(), name='chart'),
 ]
