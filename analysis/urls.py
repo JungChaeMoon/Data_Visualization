@@ -10,6 +10,6 @@ app_name = 'analysis'
 
 urlpatterns = [
     path('data_save/', DataModelSaveView.as_view(), name='data_save'),
-    path('data_list/', GraphView.as_view(), name='data_list'),
+    path('chart/data_list', GraphView.as_view(), name='data_list'),
     path('chart/', DataCharView.as_view(), name='chart'),
 ]

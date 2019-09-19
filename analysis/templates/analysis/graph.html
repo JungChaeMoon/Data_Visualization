@@ -4,25 +4,24 @@
 <script>
     {% block jquery %}
         var endpoint = 'data_list';
+        var timestamp = [];
+        var weight = [];
+
         $.ajax({
             method: "GET",
             url: endpoint,
             success: function (data) {
-                console.log(data);
-            },
-            error: function (error_data) {
-                console.log("error");
-                console.log(error_data);
-            }
-        });
-        var ctx = document.getElementById('myChart').getContext('2d');
+                weight = data.weight;
+                timestamp = data.timestamp;
+                weight = weight.map(Number);
+                var ctx = document.getElementById('myChart').getContext('2d');
                 var myChart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                        labels: timestamp,
                         datasets: [{
-                            label: '# of Votes',
-                            data: [12, 19, 3, 5, 2, 3],
+                            label: 'weight',
+                            data: weight,
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(54, 162, 235, 0.2)',
@@ -50,19 +49,25 @@
                                 }
                             }]
                         }
+                    },
+                    error: function (error_data) {
+                        console.log("error");
+                        console.log(error_data);
                     }
                 });
+            }
+        });
+
     {% endblock %}
 </script>
-{# url-endpoint="{% url 'analysis:data_list' %}"#}
 {% block content %}
     <div class="row">
         <div class="col-sm-12">
-            <h1>hello world</h1>
-            <canvas id="myChart" width="400" height="400"></canvas>
+            <h1>Data analysis Chart</h1>
+            <canvas id="myChart" width="200" height="200"></canvas>
 
         </div>
 
-</div>
+    </div>
 
 {% endblock %}

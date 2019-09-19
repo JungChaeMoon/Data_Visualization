@@ -9,4 +9,5 @@ class DataSaveModelSerializer(serializers.ModelSerializer):
             'data_model',
             'weight',
             'gyro',
+            'timestamp',
         )
