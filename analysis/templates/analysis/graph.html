@@ -36,12 +36,12 @@
                                 var x = (new Date()).getTime(), // current time
                                     y = data.weight1;
                                 y = y.map(Number);
-                                if(y== )
+                                y = y - 20;
                                     {#y = Math.round(Math.random() * 100);#}
                                     series.addPoint([x, y], true, true);
                             },
                             error: function (error_data) {
-                                alert(error_data)
+
                             }
                         });
                     }, 1000);
