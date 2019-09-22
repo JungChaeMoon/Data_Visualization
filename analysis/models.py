@@ -17,4 +17,4 @@ class DataSaveModel(models.Model):
     accelx = models.IntegerField(null=True, blank=True)
     accely = models.IntegerField(null=True, blank=True)
     accelz = models.IntegerField(null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField('date published')

@@ -36,7 +36,8 @@
                                 var x = (new Date()).getTime(), // current time
                                     y = data.weight1;
                                 y = y.map(Number);
-                                y = y - 20;
+                                y = y / 10;
+                                console.log(y);
                                     {#y = Math.round(Math.random() * 100);#}
                                     series.addPoint([x, y], true, true);
                             },
