@@ -14,11 +14,13 @@
 </head>
 <body>
 
-<div id="container" style="height: 400px; min-width: 310px"></div>
+<div id="container" style="height: 400px; min-width: 310px;"></div>
+<br>
+<div id="container2" style="height: 400px; min-width: 310px;"></div>
 <script>
 
     var weight1 = [];
-    var timestamp1 = [];
+    var weight2 = [];
     var endpoint = 'data_list';
     // Create the chart
     var option = new Highcharts.stockChart('container', {
@@ -72,7 +74,7 @@
         },
 
         title: {
-            text: 'Live random data'
+            text: 'Model weigh1 data'
         },
 
         exporting: {
@@ -106,6 +108,94 @@
 
             }]
     });
+
+    var option2 = new Highcharts.stockChart('container2', {
+        chart: {
+            events: {
+                load: function () {
+
+                    // set up the updating of the chart each second
+                    var series = this.series[0];
+                    setInterval(function () {
+                        $.ajax({
+                            method: 'GET',
+                            url: endpoint,
+                            success: function (data) {
+                                var x = (new Date()).getTime(), // current time
+                                    y = data.weight2;
+                                y = y.map(Number);
+                                y = y / 10;
+                                console.log(y);
+                                    {#y = Math.round(Math.random() * 100);#}
+                                    series.addPoint([x, y], true, true);
+                            },
+                            error: function (error_data) {
+
+                            }
+                        });
+                    }, 1000);
+                }
+            }
+        },
+
+        time: {
+            useUTC: false
+        },
+
+        rangeSelector: {
+            buttons: [{
+                count: 1,
+                type: 'minute',
+                text: '1M'
+            }, {
+                count: 5,
+                type: 'minute',
+                text: '5M'
+            }, {
+                type: 'all',
+                text: 'All'
+            }],
+            inputEnabled: false,
+            selected: 0
+        },
+
+        title: {
+            text: 'Model weight2 data'
+        },
+
+        exporting: {
+            enabled: false
+        },
+
+        yAxis: {
+            min: -100,
+            max: 100,
+            startOnTick: false,
+            endOnTick: false,
+
+        },
+        series: [{
+            yAxis: 0,
+            name: 'weight2',
+            data: (function () {
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+
+                for (i = -999; i <= 0; i += 1) {
+                    data.push([
+                        time + i * 1000,
+                        Math.round(Math.random() * 100)
+                    ]);
+                }
+                return data;
+            }())
+
+
+            }]
+    });
+
+    
 
 </script>
 </body>
