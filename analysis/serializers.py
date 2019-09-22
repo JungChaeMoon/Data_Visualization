@@ -8,6 +8,11 @@ class DataSaveModelSerializer(serializers.ModelSerializer):
         fields = (
             'data_model',
             'weight',
-            'gyro',
+            'gyrox',
+            'gyroy',
+            'gyroz',
+            'accelx',
+            'accely',
+            'accelz',
             'timestamp',
         )
