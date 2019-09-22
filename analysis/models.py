@@ -10,11 +10,11 @@ class DataModel(models.Model):
 
 class DataSaveModel(models.Model):
     data_model = models.ForeignKey('analysis.DataModel', on_delete=models.CASCADE, related_name='data_save_model')
-    weight = models.IntegerField()
-    gyrox = models.IntegerField(null=True, blank=True)
-    gyroy = models.IntegerField(null=True, blank=True)
-    gyroz = models.IntegerField(null=True, blank=True)
-    accelx = models.IntegerField(null=True, blank=True)
-    accely = models.IntegerField(null=True, blank=True)
-    accelz = models.IntegerField(null=True, blank=True)
+    weight = models.IntegerField(default=0)
+    gyrox = models.IntegerField(default=0, null=True, blank=True)
+    gyroy = models.IntegerField(default=0, null=True, blank=True)
+    gyroz = models.IntegerField(default=0, null=True, blank=True)
+    accelx = models.IntegerField(default=0, null=True, blank=True)
+    accely = models.IntegerField(default=0, null=True, blank=True)
+    accelz = models.IntegerField(default=0, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
