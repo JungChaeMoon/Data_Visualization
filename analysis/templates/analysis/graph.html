@@ -1,73 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-{% extends 'base.html' %}
-{% include 'js.html' %}
+</head>
+<body>
+
+<div id="container" style="height: 400px; min-width: 310px"></div>
 <script>
-    {% block jquery %}
-        var endpoint = 'data_list';
-        var timestamp = [];
-        var weight = [];
 
-        $.ajax({
-            method: "GET",
-            url: endpoint,
-            success: function (data) {
-                weight = data.weight;
-                timestamp = data.timestamp;
-                weight = weight.map(Number);
-                var ctx = document.getElementById('myChart').getContext('2d');
-                var myChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: timestamp,
-                        datasets: [{
-                            label: 'weight',
-                            data: weight,
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        }
-                    },
-                    error: function (error_data) {
-                        console.log("error");
-                        console.log(error_data);
-                    }
-                });
+    var weight1 = [];
+    var timestamp1 = [];
+    var endpoint = 'data_list';
+    // Create the chart
+    var option = new Highcharts.stockChart('container', {
+        chart: {
+            events: {
+                load: function () {
+
+                    // set up the updating of the chart each second
+                    var series = this.series[0];
+                    setInterval(function () {
+                        $.ajax({
+                            method: 'GET',
+                            url: endpoint,
+                            success: function (data) {
+                                var x = (new Date()).getTime(), // current time
+                                    y = data.weight1;
+                                y = y.map(Number);
+                                if(y== )
+                                    {#y = Math.round(Math.random() * 100);#}
+                                    series.addPoint([x, y], true, true);
+                            },
+                            error: function (error_data) {
+                                alert(error_data)
+                            }
+                        });
+                    }, 1000);
+                }
             }
-        });
+        },
 
-    {% endblock %}
+        time: {
+            useUTC: false
+        },
+
+        rangeSelector: {
+            buttons: [{
+                count: 1,
+                type: 'minute',
+                text: '1M'
+            }, {
+                count: 5,
+                type: 'minute',
+                text: '5M'
+            }, {
+                type: 'all',
+                text: 'All'
+            }],
+            inputEnabled: false,
+            selected: 0
+        },
+
+        title: {
+            text: 'Live random data'
+        },
+
+        exporting: {
+            enabled: false
+        },
+
+        yAxis: {
+            min: -100,
+            max: 100,
+            startOnTick: false,
+            endOnTick: false,
+
+        },
+        series: [{
+            yAxis: 0,
+            name: 'weight1',
+            data: (function () {
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+
+                for (i = -999; i <= 0; i += 1) {
+                    data.push([
+                        time + i * 1000,
+                        Math.round(Math.random() * 100)
+                    ]);
+                }
+                return data;
+            }())
+
+
+            }]
+    });
+
 </script>
-{% block content %}
-    <div class="row">
-        <div class="col-sm-12">
-            <h1>Data analysis Chart</h1>
-            <canvas id="myChart" width="200" height="200"></canvas>
-
-        </div>
-
-    </div>
-
-{% endblock %}
+</body>
+</html>

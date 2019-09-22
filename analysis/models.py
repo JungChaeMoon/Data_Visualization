@@ -11,7 +11,9 @@ class DataModel(models.Model):
 class DataSaveModel(models.Model):
     data_model = models.ForeignKey('analysis.DataModel', on_delete=models.CASCADE, related_name='data_save_model')
     weight = models.IntegerField()
-    gyro = models.IntegerField()
+    gyrox = models.IntegerField(null=True, blank=True)
+    gyroy = models.IntegerField(null=True, blank=True)
+    gyroz = models.IntegerField(null=True, blank=True)
     accelx = models.IntegerField(null=True, blank=True)
     accely = models.IntegerField(null=True, blank=True)
     accelz = models.IntegerField(null=True, blank=True)

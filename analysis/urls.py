@@ -12,4 +12,5 @@ urlpatterns = [
     path('data_save/', DataModelSaveView.as_view(), name='data_save'),
     path('chart/data_list', GraphView.as_view(), name='data_list'),
     path('chart/', DataCharView.as_view(), name='chart'),
+    # path('test/', TestView.as_view(), name='test'),
 ]

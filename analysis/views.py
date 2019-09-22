@@ -23,12 +23,22 @@ class DataModelSaveView(generics.CreateAPIView):
 class GraphView(APIView):
 
     def get(self, request, *args, **kwargs):
-        weight = DataSaveModel.objects.values_list('weight').order_by()[:30]
-        timestamp = DataSaveModel.objects.values_list('timestamp').order_by()[:30]
+        weight1 = DataSaveModel.objects.filter(data_model=1).values_list('weight').order_by()[:1]
+        first_weight = DataSaveModel.objects.filter(data_model=1).values_list('weight')
+        timestamp1 = DataSaveModel.objects.filter(data_model=1).values_list('timestamp').order_by()[:30]
+        weight2 = DataSaveModel.objects.filter(data_model=2).values_list('weight').order_by()[:30]
+        timestamp2 = DataSaveModel.objects.filter(data_model=2).values_list('timestamp').order_by()[:30]
+
         data = {
-            'weight': weight,
-            'timestamp': timestamp,
+            'weight1': weight1,
+            'first_weight': first_weight,
+            'timestamp1': timestamp1,
+            'weight2': weight2,
+            'timestamp2': timestamp2,
         }
+
+        # def building_gyro(gyro1x, gyro1y, gyro1z, gyro2x, gyro2y, gyro2z, gyro3x):
+
         return Response(data)
 
 
