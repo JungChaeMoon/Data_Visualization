@@ -28,12 +28,12 @@ class GraphView(APIView):
         weight1 = DataSaveModel.objects.filter(data_model=1).values_list('weight').order_by('-timestamp')[:1]
         weight2 = DataSaveModel.objects.filter(data_model=2).values_list('weight').order_by('-timestamp')[:1]
         weight3 = DataSaveModel.objects.filter(data_model=3).values_list('weight').order_by('-timestamp')[:1]
-        first_weight1 = DataSaveModel.objects.filter(data_model=1).values_list('weight').order_by('-timestamp')[:50]
-        first_weight2 = DataSaveModel.objects.filter(data_model=2).values_list('weight')
-        first_weight3 = DataSaveModel.objects.filter(data_model=3).values_list('weight')
-        timestamp1 = DataSaveModel.objects.filter(data_model=1).values_list('timestamp').order_by()[:30]
-        timestamp2 = DataSaveModel.objects.filter(data_model=2).values_list('timestamp').order_by()[:30]
-        timestamp3 = DataSaveModel.objects.filter(data_model=3).values_list('timestamp').order_by()[:30]
+        # first_weight1 = DataSaveModel.objects.filter(data_model=1).values_list('weight').order_by('-timestamp')[:50]
+        # first_weight2 = DataSaveModel.objects.filter(data_model=2).values_list('weight')
+        # first_weight3 = DataSaveModel.objects.filter(data_model=3).values_list('weight')
+        # timestamp1 = DataSaveModel.objects.filter(data_model=1).values_list('timestamp').order_by()[:30]
+        # timestamp2 = DataSaveModel.objects.filter(data_model=2).values_list('timestamp').order_by()[:30]
+        # timestamp3 = DataSaveModel.objects.filter(data_model=3).values_list('timestamp').order_by()[:30]
         gyro1x = DataSaveModel.objects.filter(data_model=1).values_list('gyrox').order_by('-timestamp')[:1]
         gyro1y = DataSaveModel.objects.filter(data_model=1).values_list('gyroy').order_by('-timestamp')[:1]
         gyro1z = DataSaveModel.objects.filter(data_model=1).values_list('gyroz').order_by('-timestamp')[:1]
@@ -53,9 +53,9 @@ class GraphView(APIView):
         accel3y = DataSaveModel.objects.filter(data_model=3).values_list('accely').order_by('-timestamp')[:1]
         accel3z = DataSaveModel.objects.filter(data_model=3).values_list('accelz').order_by('-timestamp')[:1]
 
-        gyrox = sum(list(gyro1x)[0] + list(gyro2x)[0] + list(gyro3x)[0])
-        gyroy = sum(list(gyro1y)[0] + list(gyro2y)[0] + list(gyro3y)[0])
-        gyroz = sum(list(gyro1z)[0] + list(gyro2z)[0] + list(gyro3z)[0])
+        gyrox = sum(list(gyro1x)[0]) + sum(list(gyro2x)[0]) + sum(list(gyro3x)[0])
+        gyroy = sum(list(gyro1y)[0]) + sum(list(gyro2y)[0]) + sum(list(gyro3y)[0])
+        gyroz = sum(list(gyro1z)[0]) + sum(list(gyro2z)[0]) + sum(list(gyro3z)[0])
 
         accelx = sum(list(accel1x)[0] + list(accel2x)[0] + list(accel3x)[0])
         accely = sum(list(accel1y)[0] + list(accel2y)[0] + list(accel3y)[0])
@@ -67,9 +67,6 @@ class GraphView(APIView):
             'weight1': weight1,
             'weight2': weight2,
             'weight3': weight3,
-            'first_weight1': first_weight1,
-            'timestamp1': timestamp1,
-            'timestamp2': timestamp2,
             'gyrox': gyrox,
             'gyroy': gyroy,
             'gyroz': gyroz,
