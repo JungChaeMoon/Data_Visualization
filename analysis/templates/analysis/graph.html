@@ -10,6 +10,13 @@
     <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+
 
 </head>
 <body>
@@ -17,10 +24,22 @@
 <div id="container" style="height: 400px; min-width: 310px;"></div>
 <br>
 <div id="container2" style="height: 400px; min-width: 310px;"></div>
+<br>
+{#<div id="container3" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>#}
+<div id="container3" style="height: 400px; min-width: 310px;"></div>
+<br>
+<div id="container4" style="height: 400px; min-width: 310px;"></div>
+
 <script>
 
     var weight1 = [];
     var weight2 = [];
+    var gyro = [];
+    var gyrox = 0;
+    var accelx = [];
+    var accely = [];
+    var accelz = [];
+    var torque = [];
     var endpoint = 'data_list';
     // Create the chart
     var option = new Highcharts.stockChart('container', {
@@ -39,15 +58,15 @@
                                     y = data.weight1;
                                 y = y.map(Number);
                                 y = y / 10;
-                                console.log(y);
-                                    {#y = Math.round(Math.random() * 100);#}
-                                    series.addPoint([x, y], true, true);
+                                {#y = Math.round(Math.random() * 100);#}
+                                series.addPoint([x, y], true, true);
                             },
                             error: function (error_data) {
 
                             }
                         });
                     }, 1000);
+
                 }
             }
         },
@@ -95,7 +114,6 @@
                 var data = [],
                     time = (new Date()).getTime(),
                     i;
-
                 for (i = -999; i <= 0; i += 1) {
                     data.push([
                         time + i * 1000,
@@ -106,7 +124,7 @@
             }())
 
 
-            }]
+        }]
     });
 
     var option2 = new Highcharts.stockChart('container2', {
@@ -125,9 +143,8 @@
                                     y = data.weight2;
                                 y = y.map(Number);
                                 y = y / 10;
-                                console.log(y);
-                                    {#y = Math.round(Math.random() * 100);#}
-                                    series.addPoint([x, y], true, true);
+                                {#y = Math.round(Math.random() * 100);#}
+                                series.addPoint([x, y], true, true);
                             },
                             error: function (error_data) {
 
@@ -192,10 +209,378 @@
             }())
 
 
+        }]
+    });
+
+    Highcharts.stockChart('container3', {
+        chart: {
+            events: {
+                load: function () {
+
+                    // set up the updating of the chart each second
+                    var series = this.series[0];
+                    setInterval(function () {
+                        $.ajax({
+                            method: 'GET',
+                            url: endpoint,
+                            success: function (data) {
+                                var x = (new Date()).getTime(), // current time
+                                    y = data.gyrox;
+                                series.addPoint([x, y], true, true);
+                            },
+                            error: function (error_data) {
+
+                            }
+                        });
+                    }, 1000);
+
+                    var series1 = this.series[1];
+                    setInterval(function () {
+                        $.ajax({
+                            method: 'GET',
+                            url: endpoint,
+                            success: function (data) {
+                                var x = (new Date()).getTime(),
+                                    y = data.gyroy;
+                                series1.addPoint([x, y], true, true)
+
+                            },
+                            error: function (error_data) {
+
+                            }
+                        });
+                    }, 1000);
+
+                    var series2 = this.series[2];
+                    setInterval(function () {
+                        $.ajax({
+                            method: 'GET',
+                            url: endpoint,
+                            success: function (data) {
+                                var x = (new Date()).getTime(),
+                                    y = data.gyroz;
+                                series2.addPoint([x, y], true, true)
+
+                            },
+                            error: function (error_data) {
+
+                            }
+                        });
+                    }, 1000);
+
+
+
+                }
+            }
+        },
+
+        time: {
+            useUTC: false
+        },
+
+        rangeSelector: {
+            buttons: [{
+                count: 1,
+                type: 'minute',
+                text: '1M'
+            }, {
+                count: 5,
+                type: 'minute',
+                text: '5M'
+            }, {
+                type: 'all',
+                text: 'All'
+            }],
+            inputEnabled: false,
+            selected: 0
+        },
+
+        title: {
+            text: 'Gyro data'
+        },
+
+        exporting: {
+            enabled: false
+        },
+
+        yAxis: {
+            min: -100,
+            max: 100,
+            startOnTick: false,
+            endOnTick: false,
+
+        },
+        series: [{
+            yAxis: 0,
+            name: 'gyrox',
+            data: (function () {
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+                for (i = -999; i <= 0; i += 1) {
+                    data.push([
+                        time + i * 1000,
+                        Math.round(Math.random() * 100)
+                    ]);
+                }
+                return data;
+            }())
+        },
+            {
+                name: 'gyro2',
+                data: (function () {
+                    // generate an array of random data
+                    var data2 = [], time = (new Date()).getTime(), i;
+
+                    for (i = -999; i <= 0; i += 1) {
+                        data2.push([
+                            time + i * 1000,
+                            Math.round(Math.random() * 100)
+                        ]);
+                    }
+                    return data2;
+                }())
+            },
+            {
+                name: 'gyro3',
+                data: (function () {
+                    // generate an array of random data
+                    var data3 = [], time = (new Date()).getTime(), i;
+
+                    for (i = -999; i <= 0; i += 1) {
+                        data3.push([
+                            time + i * 1000,
+                            Math.round(Math.random() * 100)
+                        ]);
+                    }
+                    return data3;
+                }())
+            }
+            ]
+
+    });
+
+    Highcharts.stockChart('container4', {
+        chart: {
+            events: {
+                load: function () {
+
+                    // set up the updating of the chart each second
+                    var series = this.series[0];
+                    setInterval(function () {
+                        $.ajax({
+                            method: 'GET',
+                            url: endpoint,
+                            success: function (data) {
+                                var x = (new Date()).getTime(), // current time
+                                    y = data.accelx;
+                                series.addPoint([x, y], true, true);
+                            },
+                            error: function (error_data) {
+
+                            }
+                        });
+                    }, 1000);
+
+                    var series1 = this.series[1];
+                    setInterval(function () {
+                        $.ajax({
+                            method: 'GET',
+                            url: endpoint,
+                            success: function (data) {
+                                var x = (new Date()).getTime(),
+                                    y = data.accely;
+                                series1.addPoint([x, y], true, true)
+
+                            },
+                            error: function (error_data) {
+
+                            }
+                        });
+                    }, 1000);
+
+                    var series2 = this.series[2];
+                    setInterval(function () {
+                        $.ajax({
+                            method: 'GET',
+                            url: endpoint,
+                            success: function (data) {
+                                var x = (new Date()).getTime(),
+                                    y = data.accelz;
+                                series2.addPoint([x, y], true, true)
+
+                            },
+                            error: function (error_data) {
+
+                            }
+                        });
+                    }, 1000);
+
+
+
+                }
+            }
+        },
+
+        time: {
+            useUTC: false
+        },
+
+        rangeSelector: {
+            buttons: [{
+                count: 1,
+                type: 'minute',
+                text: '1M'
+            }, {
+                count: 5,
+                type: 'minute',
+                text: '5M'
+            }, {
+                type: 'all',
+                text: 'All'
+            }],
+            inputEnabled: false,
+            selected: 0
+        },
+
+        title: {
+            text: 'Accel data'
+        },
+
+        exporting: {
+            enabled: false
+        },
+
+        yAxis: {
+            min: -100,
+            max: 100,
+            startOnTick: false,
+            endOnTick: false,
+
+        },
+        series: [{
+            yAxis: 0,
+            name: 'accelx',
+            data: (function () {
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+                for (i = -999; i <= 0; i += 1) {
+                    data.push([
+                        time + i * 1000,
+                        Math.round(Math.random() * 100)
+                    ]);
+                }
+                return data;
+            }())
+        },
+            {
+                name: 'accely',
+                data: (function () {
+                    // generate an array of random data
+                    var data2 = [], time = (new Date()).getTime(), i;
+
+                    for (i = -999; i <= 0; i += 1) {
+                        data2.push([
+                            time + i * 1000,
+                            Math.round(Math.random() * 100)
+                        ]);
+                    }
+                    return data2;
+                }())
+            },
+            {
+                name: 'accely',
+                data: (function () {
+                    // generate an array of random data
+                    var data3 = [], time = (new Date()).getTime(), i;
+
+                    for (i = -999; i <= 0; i += 1) {
+                        data3.push([
+                            time + i * 1000,
+                            Math.round(Math.random() * 100)
+                        ]);
+                    }
+                    return data3;
+                }())
             }]
     });
 
-    
+    {#Highcharts.chart('container3', {#}
+    {#    chart: {#}
+    {#        type: 'bar',#}
+    {#        events: {#}
+    {#            load: function () {#}
+    {##}
+    {#                // set up the updating of the chart each second#}
+    {#                var series = this.series[0];#}
+    {#                setInterval(function () {#}
+    {#                    $.ajax({#}
+    {#                        method: 'GET',#}
+    {#                        url: endpoint,#}
+    {#                        success: function (data) {#}
+    {#                            gyrox = data.gyrox;#}
+    {#                            series.addPoint([gyrox], true);#}
+    {#series.data.push(x);#}
+    {#                        },#}
+    {#                        error: function (error_data) {#}
+    {##}
+    {#                        }#}
+    {#                    });#}
+    {#                }, 1000);#}
+    {#            }#}
+    {#        }#}
+    {#    },#}
+    {#    title: {#}
+    {#        text: 'gyro values'#}
+    {#    },#}
+    {#    xAxis: {#}
+    {#        categories: ['gyrox'],#}
+    {#        title: {#}
+    {#            text: null#}
+    {#        }#}
+    {#    },#}
+    {#    yAxis: {#}
+    {#        min: 0,#}
+    {#        title: {#}
+    {#            text: 'gyro',#}
+    {#            align: 'high'#}
+    {#        },#}
+    {#        labels: {#}
+    {#            overflow: 'justify'#}
+    {#        }#}
+    {#    },#}
+    {#    tooltip: {#}
+    {#        valueSuffix: ' '#}
+    {#    },#}
+    {#    plotOptions: {#}
+    {#        bar: {#}
+    {#            dataLabels: {#}
+    {#                enabled: true#}
+    {#            }#}
+    {#        }#}
+    {#    },#}
+    {#    legend: {#}
+    {#        layout: 'vertical',#}
+    {#        align: 'right',#}
+    {#        verticalAlign: 'top',#}
+    {#        x: -40,#}
+    {#        y: 80,#}
+    {#        floating: true,#}
+    {#        borderWidth: 1,#}
+    {#        backgroundColor:#}
+    {#            Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',#}
+    {#        shadow: true#}
+    {#    },#}
+    {#    credits: {#}
+    {#        enabled: false#}
+    {#    },#}
+    {#    series: [{#}
+    {#        name: 'gyrox',#}
+    {#        data: gyrox#}
+    {##}
+    {#    }]#}
+    //});
 
 </script>
 </body>

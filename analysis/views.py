@@ -7,6 +7,8 @@ from rest_framework.views import APIView
 from .models import DataSaveModel
 from .serializers import DataSaveModelSerializer
 
+from math import sqrt
+
 
 class DataModelSaveView(generics.CreateAPIView):
     queryset = DataSaveModel.objects.all()
@@ -51,6 +53,16 @@ class GraphView(APIView):
         accel3y = DataSaveModel.objects.filter(data_model=3).values_list('accely').order_by('-timestamp')[:1]
         accel3z = DataSaveModel.objects.filter(data_model=3).values_list('accelz').order_by('-timestamp')[:1]
 
+        gyrox = sum(list(gyro1x)[0] + list(gyro2x)[0] + list(gyro3x)[0])
+        gyroy = sum(list(gyro1y)[0] + list(gyro2y)[0] + list(gyro3y)[0])
+        gyroz = sum(list(gyro1z)[0] + list(gyro2z)[0] + list(gyro3z)[0])
+
+        accelx = sum(list(accel1x)[0] + list(accel2x)[0] + list(accel3x)[0])
+        accely = sum(list(accel1y)[0] + list(accel2y)[0] + list(accel3y)[0])
+        accelz = sum(list(accel1z)[0] + list(accel2z)[0] + list(accel3z)[0])
+
+        torque = sqrt(sum(list(accel1z)[0])*sum(list(accel1z)[0]) + sum(list(accel2z)[0])*sum(list(accel2z)[0]) + sum(list(accel3z)[0])*sum(list(accel3z)[0]))
+
         data = {
             'weight1': weight1,
             'weight2': weight2,
@@ -58,26 +70,14 @@ class GraphView(APIView):
             'first_weight1': first_weight1,
             'timestamp1': timestamp1,
             'timestamp2': timestamp2,
-            'gyro1x': gyro1x,
-            'gyro2x': gyro2x,
-            'gyro3x': gyro3x,
-            'gyro1y': gyro1y,
-            'gyro2y': gyro2y,
-            'gyro3y': gyro3y,
-            'gyro1z': gyro1z,
-            'gyro2z': gyro2z,
-            'gyro3z': gyro3z,
-            'accel1x': accel1x,
-            'accel2x': accel2x,
-            'accel3x': accel3x,
-            'accel1y': accel1y,
-            'accel2y': accel2y,
-            'accel3y': accel3y,
-            'accel1z': accel1z,
-            'accel2z': accel2z,
-            'accel3z': accel3z,
+            'gyrox': gyrox,
+            'gyroy': gyroy,
+            'gyroz': gyroz,
+            'accelx': accelx,
+            'accely': accely,
+            'accelz': accelz,
+            'torque': torque,
         }
-
 
         return Response(data)
 
