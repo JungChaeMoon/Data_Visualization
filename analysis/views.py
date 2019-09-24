@@ -61,7 +61,7 @@ class GraphView(APIView):
         accely = sum(i[0] for i in list(accel1y)) + sum(i[0] for i in list(accel2y)) + sum(i[0] for i in list(accel3y))
         accelz = sum(i[0] for i in list(accel1z)) + sum(i[0] for i in list(accel2z)) + sum(i[0] for i in list(accel3z))
 
-        torque = sqrt(sum(list(accel1z)[0])*sum(list(accel1z)[0]) + sum(list(accel2z)[0])*sum(list(accel2z)[0]) + sum(list(accel3z)[0])*sum(list(accel3z)[0]))
+        torque = sqrt(sum(i[0] for i in list(accel1z))*sum(i[0] for i in list(accel1z)) + sum(i[0] for i in list(accel2z))*sum(i[0] for i in list(accel2z)) + sum(i[0] for i in list(accel3z))*sum(i[0] for i in list(accel3z)))
 
         data = {
             'weight1': weight1,
