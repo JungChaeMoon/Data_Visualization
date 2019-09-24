@@ -54,10 +54,10 @@ class GraphView(APIView):
         accel3z = DataSaveModel.objects.filter(data_model=3).values_list('accelz').order_by('-timestamp')[:1]
 
         gyrox = sum(i[0] for i in list(gyro1x)) + sum(i[0] for i in list(gyro2x)) + sum(i[0] for i in list(gyro3x))
-        gyroy = sum(list(gyro1y)[0]) + sum(list(gyro2y)[0]) + sum(list(gyro3y)[0])
-        gyroz = sum(list(gyro1z)[0]) + sum(list(gyro2z)[0]) + sum(list(gyro3z)[0])
+        gyroy = sum(i[0] for i in list(gyro1y)) + sum(i[0] for i in list(gyro2y)) + sum(i[0] for i in list(gyro3y))
+        gyroz = sum(i[0] for i in list(gyro1z)) + sum(i[0] for i in list(gyro2z)) + sum(i[0] for i in list(gyro3z))
 
-        accelx = sum(list(accel1x)[0] + list(accel2x)[0] + list(accel3x)[0])
+        accelx = sum(i[0] for i in list(accel1x)) + sum(i[0] for i in list(accel2x)) + sum(i[0] for i in list(accel3x))
         accely = sum(list(accel1y)[0] + list(accel2y)[0] + list(accel3y)[0])
         accelz = sum(list(accel1z)[0] + list(accel2z)[0] + list(accel3z)[0])
 
