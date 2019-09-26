@@ -242,6 +242,8 @@
                             success: function (data) {
                                 var x = (new Date()).getTime(),
                                     y = data.gyroy;
+                                y = y / 2;
+                                console.log(y);
                                 series1.addPoint([x, y], true, true)
 
                             },
@@ -259,8 +261,6 @@
                             success: function (data) {
                                 var x = (new Date()).getTime(),
                                     y = data.gyroz;
-                                y = y / 2;
-                                console.log(y);
                                 series2.addPoint([x, y], true, true)
 
                             },
