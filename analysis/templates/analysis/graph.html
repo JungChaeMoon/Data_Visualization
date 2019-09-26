@@ -259,6 +259,7 @@
                             success: function (data) {
                                 var x = (new Date()).getTime(),
                                     y = data.gyroz;
+                                y = y - 50;
                                 series2.addPoint([x, y], true, true)
 
                             },
@@ -296,7 +297,7 @@
         },
 
         title: {
-            text: 'Principal axes'
+            text: 'Plane A axis'
         },
 
         exporting: {
@@ -444,7 +445,7 @@
         },
 
         title: {
-            text: 'Plane A axis'
+            text: 'Principal axis'
         },
 
         exporting: {
