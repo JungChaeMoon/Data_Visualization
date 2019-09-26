@@ -57,7 +57,6 @@
                                 var x = (new Date()).getTime(), // current time
                                     y = data.weight1;
                                 y = y.map(Number);
-                                y = y * 3;
                                 {#y = Math.round(Math.random() * 100);#}
                                 series.addPoint([x, y], true, true);
                             },
@@ -142,7 +141,6 @@
                                 var x = (new Date()).getTime(), // current time
                                     y = data.weight2;
                                 y = y.map(Number);
-                                y = y * 3;
                                 {#y = Math.round(Math.random() * 100);#}
                                 series.addPoint([x, y], true, true);
                             },
